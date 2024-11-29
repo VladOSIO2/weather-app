@@ -1,7 +1,9 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createAction, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { UserState } from './user.types';
 
-const initialState: UserState = {};
+const initialState: UserState = {
+  isLoading: true,
+};
 
 export const userSlice = createSlice({
   name: 'user',
@@ -11,7 +13,13 @@ export const userSlice = createSlice({
       state.id = payload.id;
       state.name = payload.name;
     },
+
+    setUserLoading: (state, { payload }: PayloadAction<boolean>) => {
+      state.isLoading = payload;
+    },
   },
 });
 
-export const { setUser } = userSlice.actions;
+export const fetchUser = createAction<void>('user/fetchUser');
+
+export const { setUser, setUserLoading } = userSlice.actions;

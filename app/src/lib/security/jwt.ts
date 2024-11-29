@@ -13,4 +13,4 @@ export const signJwt = (payload: string | object | Buffer) => {
   });
 };
 
-export type CookieJwtPayload = jwt.JwtPayload & { id: string };
+export type CookieJwtPayload = jwt.JwtPayload & { sub: string };

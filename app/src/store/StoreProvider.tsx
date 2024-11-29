@@ -1,8 +1,9 @@
 'use client';
 
-import { useRef } from 'react';
+import React, { useRef } from 'react';
 import { Provider } from 'react-redux';
 import { makeStore, AppStore } from './store';
+import { fetchUser } from './user/user.slice';
 
 export default function StoreProvider({
   children,
@@ -13,7 +14,7 @@ export default function StoreProvider({
 
   if (!storeRef.current) {
     storeRef.current = makeStore();
-    //TODO: add initialization logic here
+    storeRef.current.dispatch(fetchUser());
   }
 
   return <Provider store={storeRef.current}>{children}</Provider>;

@@ -49,3 +49,11 @@ export async function createUserReturning(
 
   return user.rows[0];
 }
+
+export async function findUserById(id: string): Promise<UserModel | undefined> {
+  const user = await dbPool.query('SELECT id, name FROM users WHERE id = $1', [
+    id,
+  ]);
+
+  return user.rows[0];
+}
