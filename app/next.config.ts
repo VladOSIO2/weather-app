@@ -11,6 +11,7 @@ const nextConfig: NextConfig = {
     remotePatterns: [{ hostname: 'cdn.weatherapi.com', protocol: 'https' }],
   },
   webpack(config) {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const fileLoaderRule = config.module.rules.find((rule: any) =>
       rule.test?.test?.('.svg'),
     );
