@@ -9,9 +9,6 @@ export default function Home() {
           <WtHome />
         </Suspense>
       </main>
-      <footer>
-        <p>Footer</p>
-      </footer>
     </div>
   );
 }
