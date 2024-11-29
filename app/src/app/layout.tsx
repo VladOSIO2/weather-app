@@ -1,7 +1,9 @@
+import React from 'react';
 import type { Metadata } from 'next';
 import './globals.css';
 import StoreProvider from '@/store/StoreProvider';
 import WtHeader from '@/components/WtHeader/WtHeader';
+import WtFooter from '@/components/WtFooter/WtFooter';
 
 export const metadata: Metadata = {
   title: 'Weather App',
@@ -16,10 +18,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className="antialiased">
+      <body className="flex min-h-screen flex-col antialiased">
         <StoreProvider>
           <WtHeader />
           {children}
+          <WtFooter />
         </StoreProvider>
       </body>
     </html>

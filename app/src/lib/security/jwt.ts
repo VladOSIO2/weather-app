@@ -12,3 +12,5 @@ export const signJwt = (payload: string | object | Buffer) => {
     expiresIn: JWT_EXPIRES_IN,
   });
 };
+
+export type CookieJwtPayload = jwt.JwtPayload & { id: string };
