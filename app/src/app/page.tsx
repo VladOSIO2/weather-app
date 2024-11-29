@@ -1,8 +1,13 @@
+import WtHome from '@/modules/home/WtHome/WtHome';
+import { Suspense } from 'react';
+
 export default function Home() {
   return (
     <div>
       <main>
-        <h1>Home</h1>
+        <Suspense fallback={<div>Loading...</div>}>
+          <WtHome />
+        </Suspense>
       </main>
       <footer>
         <p>Footer</p>
