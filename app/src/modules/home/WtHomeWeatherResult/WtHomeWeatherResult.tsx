@@ -1,3 +1,4 @@
+import React from 'react';
 import { WeatherApiForecastResponse } from '@/services/weatherapi/types';
 import Image from 'next/image';
 
@@ -22,12 +23,14 @@ const WtHomeWeatherResult: React.FC<{ data: WeatherApiForecastResponse }> = ({
       <>
         <h2 className="text-xl font-bold">Current</h2>
         <div className="flex flex-row gap-4">
-          <Image
-            src={`https:${condition.icon}`}
-            alt={condition.text}
-            width={80}
-            height={80}
-          />
+          <div className="min-h-20 min-w-20">
+            <Image
+              src={`https:${condition.icon}`}
+              alt={condition.text}
+              width={80}
+              height={80}
+            />
+          </div>
           <div className="mt-1">
             <p className="text-lg">
               {temp_c}°C / {temp_f}°F
@@ -62,12 +65,14 @@ const WtHomeWeatherResult: React.FC<{ data: WeatherApiForecastResponse }> = ({
                 })}
               </p>
               <div className="flex flex-row gap-4">
-                <Image
-                  src={`https:${condition.icon}`}
-                  alt={condition.text}
-                  width={80}
-                  height={80}
-                />
+                <div className="min-h-20 min-w-20">
+                  <Image
+                    src={`https:${condition.icon}`}
+                    alt={condition.text}
+                    width={80}
+                    height={80}
+                  />
+                </div>
                 <div className="mt-1">
                   <p className="text-lg">
                     <b>min:</b> {mintemp_c}°C / {mintemp_f}°F
