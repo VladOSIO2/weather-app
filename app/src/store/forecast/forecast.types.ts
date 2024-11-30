@@ -1,6 +1,13 @@
-import { WeatherApiForecastResponse } from '@/services/weatherapi/types';
+import {
+  WeatherApiAutoCompleteResponse,
+  WeatherApiForecastResponse,
+} from '@/services/weatherapi/types';
 
 export type ForecastState = {
-  data?: WeatherApiForecastResponse;
-  isLoading: boolean;
+  cityWeatherId?: number;
+  forecastData?: WeatherApiForecastResponse;
+  isForecastLoading: boolean;
+
+  autoCompleteData?: WeatherApiAutoCompleteResponse;
+  isAutoCompleteLoading: boolean;
 };

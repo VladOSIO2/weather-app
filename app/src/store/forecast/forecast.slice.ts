@@ -1,9 +1,15 @@
 import { createAction, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { ForecastState } from './forecast.types';
-import { WeatherApiForecastResponse } from '@/services/weatherapi/types';
+import {
+  WeatherApiAutoCompleteResponse,
+  WeatherApiForecastResponse,
+} from '@/services/weatherapi/types';
 
 const initialState: ForecastState = {
-  isLoading: false,
+  isForecastLoading: false,
+
+  autoCompleteData: [],
+  isAutoCompleteLoading: false,
 };
 
 export const forecastSlice = createSlice({
@@ -14,21 +20,50 @@ export const forecastSlice = createSlice({
       state,
       { payload }: PayloadAction<WeatherApiForecastResponse>,
     ) => {
-      state.data = payload;
+      state.forecastData = payload;
     },
 
     clearForecast: (state) => {
-      state.data = undefined;
-      state.isLoading = false;
+      state.cityWeatherId = undefined;
+      state.forecastData = undefined;
+      state.isForecastLoading = false;
     },
 
     setForecastLoading: (state, { payload }: PayloadAction<boolean>) => {
-      state.isLoading = payload;
+      state.isForecastLoading = payload;
+    },
+
+    setAutoComplete: (
+      state,
+      { payload }: PayloadAction<WeatherApiAutoCompleteResponse>,
+    ) => {
+      state.autoCompleteData = payload;
+    },
+
+    clearAutoComplete: (state) => {
+      state.autoCompleteData = [];
+    },
+
+    setAutoCompleteLoading: (state, { payload }: PayloadAction<boolean>) => {
+      state.isAutoCompleteLoading = payload;
+    },
+
+    setCityWeatherId: (state, { payload }: PayloadAction<number>) => {
+      state.cityWeatherId = payload;
     },
   },
 });
 
-export const fetchForecast = createAction<string>('forecast/fetchForecast');
+export const fetchAutoComplete = createAction<string>(
+  'forecast/fetchAutoComplete',
+);
 
-export const { setForecast, clearForecast, setForecastLoading } =
-  forecastSlice.actions;
+export const {
+  setForecast,
+  clearForecast,
+  setForecastLoading,
+  setAutoComplete,
+  setAutoCompleteLoading,
+  clearAutoComplete,
+  setCityWeatherId,
+} = forecastSlice.actions;

@@ -1,36 +1,80 @@
 'use client';
 
-import React from 'react';
-import SearchIcon from '@/components/icons/search.svg';
-import { useAppDispatch } from '@/store/hooks';
-import { fetchForecast } from '@/store/forecast/forecast.slice';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import { useAppDispatch, useAppSelector } from '@/store/hooks';
+import {
+  clearAutoComplete,
+  fetchAutoComplete,
+  setCityWeatherId,
+} from '@/store/forecast/forecast.slice';
+import { useDebounce } from '@/hooks/useDebounce/useDebounce';
+import { selectAutoComplete } from '@/store/forecast/forecast.selectors';
 
 const WtCitySearch = () => {
   const dispatch = useAppDispatch();
+  const searchResult = useAppSelector(selectAutoComplete);
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const formData = new FormData(e.currentTarget);
-    dispatch(fetchForecast(formData.get('search') as string));
-  };
+  const [search, setSearch] = useState('');
+
+  const debouncedSearch = useDebounce(search, 500);
+
+  useEffect(() => {
+    console.log('debouncedSearch', debouncedSearch);
+    if (debouncedSearch) {
+      dispatch(fetchAutoComplete(debouncedSearch));
+    }
+  }, [dispatch, debouncedSearch]);
+
+  const handleInputChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      setSearch(e.target.value);
+    },
+    [],
+  );
+
+  const handleSearchResultClick = useCallback(
+    (id: number) => {
+      dispatch(setCityWeatherId(id));
+      dispatch(clearAutoComplete());
+      setSearch('');
+    },
+    [dispatch],
+  );
+
+  const renderSearchResult = useMemo(
+    () =>
+      searchResult &&
+      searchResult.length > 0 && (
+        <ul className="absolute left-0 right-0 top-12 overflow-hidden rounded-lg border-2 border-gray-300">
+          {searchResult.map((result) => (
+            <li className="odd:bg-blue-50 even:bg-blue-100" key={result.id}>
+              <button
+                onClick={() => handleSearchResultClick(result.id)}
+                className="w-full bg-transparent p-2 text-left duration-200 hover:bg-blue-200 active:bg-blue-300"
+              >
+                <span className="text-blue-950">
+                  {result.name}, {result.region}, {result.country}
+                </span>
+              </button>
+            </li>
+          ))}
+        </ul>
+      ),
+    [searchResult, handleSearchResultClick],
+  );
 
   return (
-    <div>
-      <form
-        className="flex flex-row overflow-hidden rounded-md border-2 border-blue-400"
-        onSubmit={handleSubmit}
-      >
-        <input
-          id="searchInput"
-          type="text"
-          name="search"
-          placeholder="Address, city or zip code"
-          className="w-full rounded-l-md p-1 pl-2 text-lg text-blue-950 outline-none focus:ring-0"
-        />
-        <button type="submit" className="border-l-2 bg-slate-100 px-3 md:px-4">
-          <SearchIcon className="h-6 w-6 text-blue-950" />
-        </button>
-      </form>
+    <div className="relative max-w-md">
+      <input
+        value={search}
+        onChange={handleInputChange}
+        id="searchInput"
+        type="text"
+        placeholder="Address, city or zip code"
+        className="w-full rounded-lg border-2 border-gray-300 p-1 pl-2 text-lg text-blue-950 outline-none duration-200 focus:border-blue-400"
+      />
+
+      {renderSearchResult}
     </div>
   );
 };

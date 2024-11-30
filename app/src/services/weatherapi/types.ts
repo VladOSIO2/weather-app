@@ -4,10 +4,22 @@ export interface WeatherApiForecastResponse {
   forecast: WeatherApiForecast;
 }
 
+export type WeatherApiAutoCompleteResponse = WeatherApiAutoCompleteItem[];
+
+export interface WeatherApiAutoCompleteItem {
+  id: number;
+  name: string;
+  region?: string;
+  country: string;
+  lat: number;
+  lon: number;
+  url: string;
+}
+
 export interface WeatherApiLocation {
   id: string;
   name: string;
-  region: string;
+  region?: string;
   country: string;
   lat: number;
   lon: number;

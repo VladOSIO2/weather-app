@@ -2,26 +2,56 @@ import { SagaIterator } from 'redux-saga';
 import { PayloadAction } from '@reduxjs/toolkit';
 import { put, takeLatest, call } from 'redux-saga/effects';
 import {
-  fetchForecast,
+  fetchAutoComplete,
+  setAutoComplete,
+  setAutoCompleteLoading,
+  setCityWeatherId,
   setForecast,
   setForecastLoading,
 } from './forecast.slice';
+import { ErrorHandler } from '@/services/error-handler/error-handler';
 
-function* fetchForecastSaga({
+function* setCityIdSaga({
   payload,
-}: PayloadAction<string>): SagaIterator<void> {
+}: PayloadAction<number>): SagaIterator<void> {
   yield put(setForecastLoading(true));
 
-  const forecastResponse = yield call(
-    fetch,
-    `/api/weather/forecast?search=${payload}`,
-  );
-  const forecastJson = yield call([forecastResponse, 'json']);
+  try {
+    const forecastResponse = yield call(
+      fetch,
+      `/api/weather/forecast?q=id:${payload}`,
+    );
+    const forecastJson = yield call([forecastResponse, 'json']);
 
-  yield put(setForecast(forecastJson));
-  yield put(setForecastLoading(false));
+    yield put(setForecast(forecastJson));
+  } catch (error) {
+    ErrorHandler.handleError(error);
+  } finally {
+    yield put(setForecastLoading(false));
+  }
+}
+
+function* fetchAutoCompleteSaga({
+  payload,
+}: PayloadAction<string>): SagaIterator<void> {
+  yield put(setAutoCompleteLoading(true));
+
+  try {
+    const autoCompleteResponse = yield call(
+      fetch,
+      `/api/weather/search?search=${payload}`,
+    );
+    const autoCompleteJson = yield call([autoCompleteResponse, 'json']);
+
+    yield put(setAutoComplete(autoCompleteJson));
+  } catch (error) {
+    ErrorHandler.handleError(error);
+  } finally {
+    yield put(setAutoCompleteLoading(false));
+  }
 }
 
 export default function* forecastSaga() {
-  yield takeLatest(fetchForecast, fetchForecastSaga);
+  yield takeLatest(setCityWeatherId, setCityIdSaga);
+  yield takeLatest(fetchAutoComplete, fetchAutoCompleteSaga);
 }
