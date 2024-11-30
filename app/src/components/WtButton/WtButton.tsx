@@ -1,6 +1,10 @@
 import { WtButtonProps } from './WtButton.types';
 
-const WtButton = ({ type = 'button', className, children }: WtButtonProps) => {
+const WtButton = ({
+  type = 'button',
+  className = '',
+  children,
+}: WtButtonProps) => {
   return (
     <button
       type={type}

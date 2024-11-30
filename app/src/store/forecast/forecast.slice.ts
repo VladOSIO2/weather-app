@@ -2,8 +2,12 @@ import { createAction, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { ForecastState } from './forecast.types';
 import {
   WeatherApiAutoCompleteResponse,
+  WeatherApiForecastDayInfo,
   WeatherApiForecastResponse,
+  WeatherApiLocationWithTime,
 } from '@/services/weatherapi/types';
+
+//TODO: rename everything to weather
 
 const initialState: ForecastState = {
   isForecastLoading: false,
@@ -51,6 +55,24 @@ export const forecastSlice = createSlice({
     setCityWeatherId: (state, { payload }: PayloadAction<number>) => {
       state.cityWeatherId = payload;
     },
+
+    setWeatherDetails: (
+      state,
+      {
+        payload,
+      }: PayloadAction<{
+        day: WeatherApiForecastDayInfo;
+        location: WeatherApiLocationWithTime;
+      }>,
+    ) => {
+      state.weatherDetailsDay = payload.day;
+      state.weatherDetailsLocation = payload.location;
+    },
+
+    clearWeatherDetailsDay: (state) => {
+      state.weatherDetailsDay = undefined;
+      state.weatherDetailsLocation = undefined;
+    },
   },
 });
 
@@ -66,4 +88,6 @@ export const {
   setAutoCompleteLoading,
   clearAutoComplete,
   setCityWeatherId,
+  setWeatherDetails,
+  clearWeatherDetailsDay,
 } = forecastSlice.actions;

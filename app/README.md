@@ -2,10 +2,9 @@
 
 <!-- TODO: frontend description -->
 
-
 ## Store management
 
-This app uses Redux Toolkit (RTK) for store management and redux-saga for orchestrating side effects. 
+This app uses Redux Toolkit (RTK) for store management and redux-saga for orchestrating side effects.
 
 RTK is a powerful library that simplifies the process of managing the store, including reducers, actions, and selectors. It reduces boilerplate code (e.g., comparing to creating multiple context providers for different data parts) and ensures clean state management, making it easier to handle complex state across multiple pages.
 

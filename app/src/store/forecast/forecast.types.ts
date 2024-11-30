@@ -1,6 +1,8 @@
 import {
   WeatherApiAutoCompleteResponse,
+  WeatherApiForecastDayInfo,
   WeatherApiForecastResponse,
+  WeatherApiLocationWithTime,
 } from '@/services/weatherapi/types';
 
 export type ForecastState = {
@@ -10,4 +12,7 @@ export type ForecastState = {
 
   autoCompleteData?: WeatherApiAutoCompleteResponse;
   isAutoCompleteLoading: boolean;
+
+  weatherDetailsDay?: WeatherApiForecastDayInfo;
+  weatherDetailsLocation?: WeatherApiLocationWithTime;
 };

@@ -2,10 +2,22 @@
 
 import React, { useEffect } from 'react';
 import Image from 'next/image';
-import { selectForecastLoading } from '@/store/forecast/forecast.selectors';
-import { selectForecast } from '@/store/forecast/forecast.selectors';
+import {
+  selectForecastLoading,
+  selectForecast,
+} from '@/store/forecast/forecast.selectors';
 import { useDispatch, useSelector } from 'react-redux';
-import { clearForecast } from '@/store/forecast/forecast.slice';
+import {
+  clearForecast,
+  setWeatherDetails,
+} from '@/store/forecast/forecast.slice';
+import WtLinkButton from '@/components/WtLinkButton/WtLinkButton';
+import {
+  WeatherApiForecastDayInfo,
+  WeatherApiLocationWithTime,
+} from '@/services/weatherapi/types';
+import WtLocationName from '@/components/WtLocationName/WtLocationName';
+import { convertDateStrToLocaleString } from '@/lib/utils/weather-time-utils';
 
 const WtHomeWeatherResult = () => {
   const dispatch = useDispatch();
@@ -19,27 +31,28 @@ const WtHomeWeatherResult = () => {
     };
   }, [dispatch]);
 
-  //TODO:
-  if (isLoading) {
-    return <div>LOADING...</div>;
-  }
+  const handleDetailsClick = (forecastDay: WeatherApiForecastDayInfo) => {
+    dispatch(
+      setWeatherDetails({
+        day: forecastDay,
+        location: forecastData?.location as WeatherApiLocationWithTime,
+      }),
+    );
+  };
 
   //TODO:
   if (!forecastData) {
     return <div>No data</div>;
   }
 
+  //TODO:
+  if (isLoading) {
+    return <div>LOADING...</div>;
+  }
+
   //TODO: not found forecast
 
   const { location, current, forecast } = forecastData;
-
-  //TODO: handle region & country empty
-  const renderLocation = (
-    <p className="text-2xl">
-      <span className="text-3xl font-bold">{location.name}</span>,{' '}
-      {location.region}, {location.country}
-    </p>
-  );
 
   //TODO: add current time (UTC, local)
   const renderCurrent = () => {
@@ -47,7 +60,7 @@ const WtHomeWeatherResult = () => {
 
     return (
       <>
-        <h2 className="text-xl font-bold">Current</h2>
+        <h2 className="mt-4 text-2xl font-bold">Current</h2>
         <div className="flex flex-row gap-4">
           <div className="min-h-20 min-w-20">
             <Image
@@ -70,25 +83,21 @@ const WtHomeWeatherResult = () => {
 
   const renderForecast = (
     <div>
-      <h2 className="text-xl font-bold">Forecast</h2>
+      <h2 className="mt-4 text-2xl font-bold">Forecast</h2>
 
-      <div className="flex flex-col gap-4">
+      <div className="flex flex-col justify-center gap-4 lg:flex-row">
         {forecast.forecastday.map((forecastDay) => {
           const { maxtemp_c, mintemp_c, maxtemp_f, mintemp_f, condition } =
             forecastDay.day;
 
+          //TODO: WtDetailsCard
           return (
             <div
               key={forecastDay.date}
-              className="rounded-lg border-2 border-blue-300 px-4 py-2"
+              className="flex flex-col rounded-lg border-2 border-blue-300 p-4 lg:max-w-80 lg:flex-1"
             >
               <p className="text-lg">
-                {new Date(forecastDay.date).toLocaleDateString('en-US', {
-                  weekday: 'long',
-                  year: 'numeric',
-                  month: 'long',
-                  day: 'numeric',
-                })}
+                {convertDateStrToLocaleString(forecastDay.date)}
               </p>
               <div className="flex flex-row gap-4">
                 <div className="min-h-20 min-w-20">
@@ -109,6 +118,14 @@ const WtHomeWeatherResult = () => {
                   <p className="text-lg">{condition.text}</p>
                 </div>
               </div>
+
+              <WtLinkButton
+                href="/details"
+                onClick={() => handleDetailsClick(forecastDay)}
+                className="ml-auto mt-2"
+              >
+                Details
+              </WtLinkButton>
             </div>
           );
         })}
@@ -118,7 +135,13 @@ const WtHomeWeatherResult = () => {
 
   return (
     <div>
-      {renderLocation}
+      <WtLocationName
+        name={location.name}
+        region={location.region}
+        country={location.country}
+        isLoading={isLoading}
+      />
+
       {renderCurrent()}
       {renderForecast}
     </div>
