@@ -7,6 +7,8 @@ const WtDetailsAstro: React.FC<WtDetailsAstroProps> = ({
   sunrise,
   sunset,
   moonPhase,
+  timezone,
+  date,
 }) => {
   return (
     <WtInfoCard>
@@ -14,15 +16,15 @@ const WtDetailsAstro: React.FC<WtDetailsAstroProps> = ({
         <div className="flex flex-row gap-2">
           <p className="w-[4.3rem] font-bold">Sunrise:</p>
           <div>
-            <p>{sunrise} UTC</p>
-            <p>{convertTimeToLocal(sunrise)} your local time</p>
+            <p>{sunrise} City time</p>
+            <p>{convertTimeToLocal(date, sunrise, timezone)} your local time</p>
           </div>
         </div>
         <div className="flex flex-row gap-2">
           <p className="w-[4.3rem] font-bold">Sunset:</p>
           <div>
-            <p>{sunset} UTC</p>
-            <p>{convertTimeToLocal(sunset)} your local time</p>
+            <p>{sunset} City time</p>
+            <p>{convertTimeToLocal(date, sunset, timezone)} your local time</p>
           </div>
         </div>
         <p>

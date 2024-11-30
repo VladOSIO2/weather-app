@@ -4,7 +4,7 @@ import { NextRequest, NextResponse } from 'next/server';
 
 export const GET = async (req: NextRequest) => {
   const searchParams = req.nextUrl.searchParams;
-  const searchQuery = searchParams.get('search');
+  const searchQuery = searchParams.get('q');
 
   const url = new URL(WEATHERAPI_ENDPOINTS.SEARCH);
   url.searchParams.set('key', process.env.WEATHERAPI_KEY ?? '');

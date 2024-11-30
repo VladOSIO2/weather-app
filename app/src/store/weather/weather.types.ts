@@ -14,6 +14,7 @@ export type WeatherState = {
   isAutoCompleteLoading: boolean;
 
   isWeatherDetailsLoading: boolean;
+  weatherDetailsError?: string;
   weatherDetailsDay?: WeatherApiForecastDayInfo;
   weatherDetailsLocation?: WeatherApiLocationWithTime;
 };

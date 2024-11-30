@@ -5,19 +5,40 @@ import WtLocationName from '@/components/WtLocationName/WtLocationName';
 import { getWeatherSuggestion } from '@/lib/utils/weather-time-utils';
 import {
   selectWeatherDetailsDay,
+  selectWeatherDetailsError,
+  selectWeatherDetailsLoading,
   selectWeatherDetailsLocation,
-} from '@/store/forecast/forecast.selectors';
-import { useAppSelector } from '@/store/hooks';
+} from '@/store/weather/weather.selectors';
+import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import WtDetailsAstro from '../WtDetailsAstro/WtDetailsAstro';
 import WtDetailsTemperature from '../WtDetailsTemperature/WtDetailsTemperature';
+import { useSearchParams } from 'next/navigation';
+import { useEffect } from 'react';
+import { fetchWeatherDetailsIfNeeded } from '@/store/weather/weather.slice';
+import WtErrorInfo from '@/components/WtErrorInfo/WtErrorInfo';
 
 const WtDetailsMain = () => {
+  const dispatch = useAppDispatch();
+
+  const isDetailsLoading = useAppSelector(selectWeatherDetailsLoading);
+  const detailsError = useAppSelector(selectWeatherDetailsError);
   const detailsDay = useAppSelector(selectWeatherDetailsDay);
   const detailsLocation = useAppSelector(selectWeatherDetailsLocation);
 
-  //TODO: empty store handling
+  const searchParams = useSearchParams();
+
+  useEffect(() => {
+    const cityWeatherId = searchParams.get('id');
+    const date = searchParams.get('date');
+    dispatch(fetchWeatherDetailsIfNeeded({ cityWeatherId, date }));
+  }, [dispatch, searchParams]);
+
+  if (detailsError) {
+    return <WtErrorInfo info={detailsError} />;
+  }
+
   if (!detailsDay || !detailsLocation) {
-    return <div>Nothing</div>;
+    return null;
   }
 
   const { day, astro, date } = detailsDay;
@@ -28,6 +49,7 @@ const WtDetailsMain = () => {
         name={detailsLocation.name}
         region={detailsLocation.region}
         country={detailsLocation.country}
+        isLoading={isDetailsLoading}
       />
 
       <WtInfoCard>
@@ -44,6 +66,8 @@ const WtDetailsMain = () => {
           sunrise={astro.sunrise}
           sunset={astro.sunset}
           moonPhase={astro.moon_phase}
+          timezone={detailsLocation.tz_id}
+          date={date}
         />
 
         <WtInfoCard>

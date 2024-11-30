@@ -7,7 +7,14 @@ function* fetchUserSaga(): SagaIterator<void> {
   yield put(setUserLoading(true));
 
   try {
-    const userResponse = yield call(fetch, '/api/auth/me');
+    //TODO: make this everywhere
+    const userResponse = yield call(
+      fetch,
+      new URL(
+        '/api/auth/me',
+        process.env.BASE_URL || process.env.NEXT_PUBLIC_BASE_URL,
+      ),
+    );
     const userJson = yield call([userResponse, 'json']);
 
     yield put(setUser(userJson));

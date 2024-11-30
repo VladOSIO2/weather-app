@@ -22,7 +22,7 @@ export async function POST(request: NextRequest) {
   cookieStore.set('accessToken', accessToken, {
     httpOnly: true,
     secure: true,
-    maxAge: Number(process.env.JWT_EXPIRES_IN),
+    maxAge: Number(process.env.JWT_EXPIRES_IN) / 1000,
     path: '/',
     sameSite: 'none',
   });

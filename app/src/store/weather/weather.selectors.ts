@@ -22,3 +22,6 @@ export const selectWeatherDetailsLocation = (state: RootState) =>
 
 export const selectWeatherDetailsLoading = (state: RootState) =>
   state.weather.isWeatherDetailsLoading;
+
+export const selectWeatherDetailsError = (state: RootState) =>
+  state.weather.weatherDetailsError;

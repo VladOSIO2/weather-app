@@ -6,7 +6,7 @@ import {
   selectForecastLoading,
   selectForecast,
   selectCityWeatherId,
-} from '@/store/weather/forecast.selectors';
+} from '@/store/weather/weather.selectors';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   clearForecast,
@@ -122,7 +122,7 @@ const WtHomeWeatherResult = () => {
               </div>
 
               <WtLinkButton
-                href={`/details?id=${cityWeatherId}&day=${forecastDay.date}`}
+                href={`/details?id=${cityWeatherId}&date=${forecastDay.date}`}
                 onClick={() => handleDetailsClick(forecastDay)}
                 className="ml-auto mt-2"
               >

@@ -27,31 +27,27 @@ export const convertDateStrToLocaleString = (date: string): string => {
   });
 };
 
-export const convertTimeToLocal = (timeStr: string): string => {
-  const [time, period] = timeStr.split(' ');
-  // eslint-disable-next-line prefer-const
-  let [hours, minutes] = time.split(':').map(Number);
+export const convertTimeToLocal = (
+  dateStr: string,
+  timeStr: string,
+  timeZone: string,
+): string => {
+  const timezoneOffset = getTimezoneOffset(timeZone);
+  const cityDateTime = new Date(`${dateStr} ${timeStr} ${timezoneOffset}`);
 
-  if (period === 'PM' && hours !== 12) hours += 12;
-  if (period === 'AM' && hours === 12) hours = 0;
+  const formatter = new Intl.DateTimeFormat('en-US', {
+    hour: '2-digit',
+    minute: '2-digit',
+    hour12: true,
+  });
 
-  const now = new Date();
-  const inputTime = new Date(
-    now.getFullYear(),
-    now.getMonth(),
-    now.getDate(),
-    hours,
-    minutes,
-  );
+  const formattedTime = formatter.format(new Date(cityDateTime));
 
-  const localTimeOffset = inputTime.getTimezoneOffset() * 60 * 1000;
-  const localTime = new Date(inputTime.getTime() - localTimeOffset);
-  const localHours = localTime.getHours();
+  return formattedTime;
+};
 
-  const clockHours = localHours % 12 || 12;
-  const formattedHours = clockHours.toString().padStart(2, '0');
-  const formattedMinutes = localTime.getMinutes().toString().padStart(2, '0');
-  const formattedPeriod = localHours >= 12 ? 'PM' : 'AM';
-
-  return `${formattedHours}:${formattedMinutes} ${formattedPeriod}`;
+const getTimezoneOffset = (timeZone: string): string => {
+  return new Date()
+    .toLocaleString('en', { timeZone, timeZoneName: 'longOffset' })
+    .split(' ')[3];
 };

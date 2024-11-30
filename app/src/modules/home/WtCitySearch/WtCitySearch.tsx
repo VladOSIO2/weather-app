@@ -19,7 +19,6 @@ const WtCitySearch = () => {
   const debouncedSearch = useDebounce(search, 500);
 
   useEffect(() => {
-    console.log('debouncedSearch', debouncedSearch);
     if (debouncedSearch) {
       dispatch(fetchAutoComplete(debouncedSearch));
     }

@@ -13,6 +13,7 @@
       "warn",
       { "argsIgnorePattern": "^_", "varsIgnorePattern": "^_" }
     ],
-    "no-unused-vars": "off"
+    "no-unused-vars": "off",
+    "no-console": "error"
   }
 }
