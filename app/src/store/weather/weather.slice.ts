@@ -1,5 +1,5 @@
 import { createAction, createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { ForecastState } from './forecast.types';
+import { WeatherState } from './weather.types';
 import {
   WeatherApiAutoCompleteResponse,
   WeatherApiForecastDayInfo,
@@ -7,17 +7,17 @@ import {
   WeatherApiLocationWithTime,
 } from '@/services/weatherapi/types';
 
-//TODO: rename everything to weather
-
-const initialState: ForecastState = {
+const initialState: WeatherState = {
   isForecastLoading: false,
 
   autoCompleteData: [],
   isAutoCompleteLoading: false,
+
+  isWeatherDetailsLoading: false,
 };
 
-export const forecastSlice = createSlice({
-  name: 'forecast',
+export const weatherSlice = createSlice({
+  name: 'weather',
   initialState,
   reducers: {
     setForecast: (
@@ -77,7 +77,7 @@ export const forecastSlice = createSlice({
 });
 
 export const fetchAutoComplete = createAction<string>(
-  'forecast/fetchAutoComplete',
+  'weather/fetchAutoComplete',
 );
 
 export const {
@@ -90,4 +90,4 @@ export const {
   setCityWeatherId,
   setWeatherDetails,
   clearWeatherDetailsDay,
-} = forecastSlice.actions;
+} = weatherSlice.actions;

@@ -2,7 +2,7 @@ import { configureStore } from '@reduxjs/toolkit';
 import { userSlice } from './user/user.slice';
 import createSagaMiddleware from 'redux-saga';
 import { rootSaga } from './sagas';
-import { forecastSlice } from './forecast/forecast.slice';
+import { weatherSlice } from './weather/weather.slice';
 
 export const makeStore = () => {
   const sagaMiddleware = createSagaMiddleware();
@@ -10,7 +10,7 @@ export const makeStore = () => {
   const store = configureStore({
     reducer: {
       [userSlice.name]: userSlice.reducer,
-      [forecastSlice.name]: forecastSlice.reducer,
+      [weatherSlice.name]: weatherSlice.reducer,
     },
     middleware: (getDefaultMiddleware) =>
       getDefaultMiddleware().concat(sagaMiddleware),

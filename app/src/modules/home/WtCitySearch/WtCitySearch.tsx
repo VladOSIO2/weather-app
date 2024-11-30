@@ -6,9 +6,9 @@ import {
   clearAutoComplete,
   fetchAutoComplete,
   setCityWeatherId,
-} from '@/store/forecast/forecast.slice';
+} from '@/store/weather/weather.slice';
 import { useDebounce } from '@/hooks/useDebounce/useDebounce';
-import { selectAutoComplete } from '@/store/forecast/forecast.selectors';
+import { selectAutoComplete } from '@/store/weather/weather.selectors';
 
 const WtCitySearch = () => {
   const dispatch = useAppDispatch();

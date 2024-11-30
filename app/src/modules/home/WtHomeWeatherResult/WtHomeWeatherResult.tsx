@@ -5,12 +5,13 @@ import Image from 'next/image';
 import {
   selectForecastLoading,
   selectForecast,
-} from '@/store/forecast/forecast.selectors';
+  selectCityWeatherId,
+} from '@/store/weather/forecast.selectors';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   clearForecast,
   setWeatherDetails,
-} from '@/store/forecast/forecast.slice';
+} from '@/store/weather/weather.slice';
 import WtLinkButton from '@/components/WtLinkButton/WtLinkButton';
 import {
   WeatherApiForecastDayInfo,
@@ -22,6 +23,7 @@ import { convertDateStrToLocaleString } from '@/lib/utils/weather-time-utils';
 const WtHomeWeatherResult = () => {
   const dispatch = useDispatch();
 
+  const cityWeatherId = useSelector(selectCityWeatherId);
   const forecastData = useSelector(selectForecast);
   const isLoading = useSelector(selectForecastLoading);
 
@@ -120,7 +122,7 @@ const WtHomeWeatherResult = () => {
               </div>
 
               <WtLinkButton
-                href="/details"
+                href={`/details?id=${cityWeatherId}&day=${forecastDay.date}`}
                 onClick={() => handleDetailsClick(forecastDay)}
                 className="ml-auto mt-2"
               >

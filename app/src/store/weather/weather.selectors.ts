@@ -1,21 +1,24 @@
 import { RootState } from '../store';
 
-export const selectForecast = (state: RootState) => state.forecast.forecastData;
+export const selectForecast = (state: RootState) => state.weather.forecastData;
 
 export const selectCityWeatherId = (state: RootState) =>
-  state.forecast.cityWeatherId;
+  state.weather.cityWeatherId;
 
 export const selectForecastLoading = (state: RootState) =>
-  state.forecast.isForecastLoading;
+  state.weather.isForecastLoading;
 
 export const selectAutoComplete = (state: RootState) =>
-  state.forecast.autoCompleteData;
+  state.weather.autoCompleteData;
 
 export const selectAutoCompleteLoading = (state: RootState) =>
-  state.forecast.isAutoCompleteLoading;
+  state.weather.isAutoCompleteLoading;
 
 export const selectWeatherDetailsDay = (state: RootState) =>
-  state.forecast.weatherDetailsDay;
+  state.weather.weatherDetailsDay;
 
 export const selectWeatherDetailsLocation = (state: RootState) =>
-  state.forecast.weatherDetailsLocation;
+  state.weather.weatherDetailsLocation;
+
+export const selectWeatherDetailsLoading = (state: RootState) =>
+  state.weather.isWeatherDetailsLoading;

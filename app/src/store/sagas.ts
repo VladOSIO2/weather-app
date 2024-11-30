@@ -1,7 +1,7 @@
 import { fork } from 'redux-saga/effects';
 import { all } from 'redux-saga/effects';
 import { userSaga } from './user/user.saga';
-import forecastSaga from './forecast/forecast.saga';
+import forecastSaga from './weather/forecast.saga';
 
 const sagas = [userSaga, forecastSaga];
 

@@ -5,7 +5,7 @@ import {
   WeatherApiLocationWithTime,
 } from '@/services/weatherapi/types';
 
-export type ForecastState = {
+export type WeatherState = {
   cityWeatherId?: number;
   forecastData?: WeatherApiForecastResponse;
   isForecastLoading: boolean;
@@ -13,6 +13,7 @@ export type ForecastState = {
   autoCompleteData?: WeatherApiAutoCompleteResponse;
   isAutoCompleteLoading: boolean;
 
+  isWeatherDetailsLoading: boolean;
   weatherDetailsDay?: WeatherApiForecastDayInfo;
   weatherDetailsLocation?: WeatherApiLocationWithTime;
 };

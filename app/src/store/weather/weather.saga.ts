@@ -8,7 +8,7 @@ import {
   setCityWeatherId,
   setForecast,
   setForecastLoading,
-} from './forecast.slice';
+} from './weather.slice';
 import { ErrorHandler } from '@/services/error-handler/error-handler';
 
 function* setCityIdSaga({
