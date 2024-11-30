@@ -1,12 +1,37 @@
-import React from 'react';
-import { WeatherApiForecastResponse } from '@/services/weatherapi/types';
-import Image from 'next/image';
+'use client';
 
-//TODO: add data type
-const WtHomeWeatherResult: React.FC<{ data: WeatherApiForecastResponse }> = ({
-  data,
-}) => {
-  const { location, current, forecast } = data;
+import React, { useEffect } from 'react';
+import Image from 'next/image';
+import { selectForecastLoading } from '@/store/forecast/forecast.selectors';
+import { selectForecast } from '@/store/forecast/forecast.selectors';
+import { useDispatch, useSelector } from 'react-redux';
+import { clearForecast } from '@/store/forecast/forecast.slice';
+
+const WtHomeWeatherResult = () => {
+  const dispatch = useDispatch();
+
+  const forecastData = useSelector(selectForecast);
+  const isLoading = useSelector(selectForecastLoading);
+
+  useEffect(() => {
+    return () => {
+      dispatch(clearForecast());
+    };
+  }, [dispatch]);
+
+  //TODO:
+  if (isLoading) {
+    return <div>LOADING...</div>;
+  }
+
+  //TODO:
+  if (!forecastData) {
+    return <div>No data</div>;
+  }
+
+  //TODO: not found forecast
+
+  const { location, current, forecast } = forecastData;
 
   //TODO: handle region & country empty
   const renderLocation = (
@@ -16,6 +41,7 @@ const WtHomeWeatherResult: React.FC<{ data: WeatherApiForecastResponse }> = ({
     </p>
   );
 
+  //TODO: add current time (UTC, local)
   const renderCurrent = () => {
     const { temp_c, temp_f, condition } = current;
 

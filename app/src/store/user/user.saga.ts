@@ -5,7 +5,7 @@ import { SagaIterator } from 'redux-saga';
 function* fetchUserSaga(): SagaIterator<void> {
   yield put(setUserLoading(true));
 
-  const userResponse = yield call(fetch, 'http://localhost:3000/api/auth/me');
+  const userResponse = yield call(fetch, '/api/auth/me');
   const userJson = yield call([userResponse, 'json']);
 
   yield put(setUser(userJson));

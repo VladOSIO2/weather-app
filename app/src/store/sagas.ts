@@ -1,7 +1,10 @@
 import { fork } from 'redux-saga/effects';
 import { all } from 'redux-saga/effects';
 import { userSaga } from './user/user.saga';
+import forecastSaga from './forecast/forecast.saga';
+
+const sagas = [userSaga, forecastSaga];
 
 export function* rootSaga() {
-  yield all([fork(userSaga)]);
+  yield all(sagas.map(fork));
 }
