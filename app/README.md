@@ -2,6 +2,16 @@
 
 ## Startup
 
+Install dependencies:
+
+```bash
+npm install
+# or
+yarn install
+# or
+pnpm install
+```
+
 ### Local development
 
 First, run the development server:
