@@ -29,7 +29,7 @@ import { WeatherApiForecastDayInfo } from '@/services/weatherapi/types';
 
 function* fetchForecastSaga({
   payload,
-}: PayloadAction<number>): SagaIterator<void> {
+}: PayloadAction<string>): SagaIterator<void> {
   yield put(setForecastLoading(true));
   yield put(setCityWeatherId(payload));
 
@@ -96,6 +96,7 @@ function* fetchWeatherDetailsSaga({
   }
 
   yield put(setWeatherDetailsLoading(true));
+  yield put(setCityWeatherId(payload.cityWeatherId));
 
   try {
     const weatherDetailsResponse = yield call(
@@ -133,7 +134,7 @@ function* fetchWeatherDetailsSaga({
 }
 
 export default function* weatherSaga() {
-  yield takeLatest(fetchForecast.type, fetchForecastSaga);
-  yield takeLatest(fetchAutoComplete.type, fetchAutoCompleteSaga);
-  yield takeLatest(fetchWeatherDetailsIfNeeded.type, fetchWeatherDetailsSaga);
+  yield takeLatest(fetchForecast, fetchForecastSaga);
+  yield takeLatest(fetchAutoComplete, fetchAutoCompleteSaga);
+  yield takeLatest(fetchWeatherDetailsIfNeeded, fetchWeatherDetailsSaga);
 }

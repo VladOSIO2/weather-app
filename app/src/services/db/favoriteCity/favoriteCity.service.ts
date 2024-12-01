@@ -44,7 +44,7 @@ export async function findAllFavoriteCities(
   userId: string,
 ): Promise<FavoriteCityModel[]> {
   const favoriteCities = await dbPool.query(
-    `SELECT user_id AS userId, weather_api_id AS weatherApiId, name AS cityName 
+    `SELECT user_id AS "userId", weather_api_id AS "weatherApiId", name AS "cityName" 
     FROM favorite_cities WHERE user_id = $1`,
     [userId],
   );

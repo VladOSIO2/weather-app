@@ -8,6 +8,10 @@ export interface FavoriteCityState {
 }
 
 export interface FavoriteCity {
-  weatherCityId: string;
-  name: string;
+  weatherApiId: string;
+  cityName: string;
+}
+
+export interface FavoriteCitiesResponse {
+  cities: FavoriteCity[];
 }

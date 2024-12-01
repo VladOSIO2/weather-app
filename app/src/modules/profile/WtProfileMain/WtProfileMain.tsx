@@ -1,7 +1,13 @@
-'use client';
+import WtProfileFavoriteList from '../WtProfileFavoriteList/WtProfileFavoriteList';
+import WtProfileWelcome from '../WtProfileWelcome/WtProfileWelcome';
 
-const WtProfile = () => {
-  return <main>Profile</main>;
+const WtProfileMain = () => {
+  return (
+    <main className="flex flex-col gap-4 p-4">
+      <WtProfileWelcome />
+      <WtProfileFavoriteList />
+    </main>
+  );
 };
 
-export default WtProfile;
+export default WtProfileMain;

@@ -51,7 +51,7 @@ export const weatherSlice = createSlice({
       state.isAutoCompleteLoading = payload;
     },
 
-    setCityWeatherId: (state, { payload }: PayloadAction<number>) => {
+    setCityWeatherId: (state, { payload }: PayloadAction<string>) => {
       state.cityWeatherId = payload;
     },
 

@@ -6,7 +6,7 @@ import {
 } from '@/services/weatherapi/types';
 
 export type WeatherState = {
-  cityWeatherId?: number;
+  cityWeatherId?: string;
   forecastData?: WeatherApiForecastResponse;
   isForecastLoading: boolean;
 

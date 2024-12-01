@@ -4,7 +4,7 @@ import { FavoriteCity, FavoriteCityState } from './favoriteCities.types';
 const initialState: FavoriteCityState = {
   isLoadingDetailsCity: false,
 
-  isLoadingFavoriteCities: false,
+  isLoadingFavoriteCities: true,
   isValidFavoriteCities: false,
 };
 
@@ -45,6 +45,9 @@ export const fetchDetailsCity = createAction<string>(
 );
 export const toggleDetailsCity = createAction<void>(
   'favoriteCities/toggleDetailsCity',
+);
+export const fetchFavoriteCities = createAction<void>(
+  'favoriteCities/fetchFavoriteCities',
 );
 
 export const {

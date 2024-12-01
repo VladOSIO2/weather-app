@@ -1,10 +1,10 @@
-import WtProfile from '@/modules/profile/WtProfileMain/WtProfileMain';
+import WtProfileMain from '@/modules/profile/WtProfileMain/WtProfileMain';
 
 export default function Profile() {
   return (
     <div>
       <main>
-        <WtProfile />
+        <WtProfileMain />
       </main>
     </div>
   );
