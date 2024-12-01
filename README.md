@@ -12,6 +12,8 @@ This is a full-stack weather app built with Next.js, Tailwind CSS, and PostgreSQ
 
 Authentication is implemented using JWT tokens stored in a HTTP-only cookie.
 
+This app is also available live on [Vercel](https://weather-app-theta-blue-31.vercel.app/).
+
 ## Startup
 
 Refer to the [App README](./app/README.md) file for more details on how to start the app. 
