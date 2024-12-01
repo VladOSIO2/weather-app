@@ -20,6 +20,7 @@ import {
 } from '@/store/weather/weather.slice';
 import WtErrorInfo from '@/components/WtErrorInfo/WtErrorInfo';
 import WtDetailsFavoriteButton from '../WtDetailsFavoriteButton/WtDetailsFavoriteButton';
+import { clearDetailsCity } from '@/store/favoriteCities/favoriteCities.slice';
 
 const WtDetailsMain = () => {
   const dispatch = useAppDispatch();
@@ -45,6 +46,7 @@ const WtDetailsMain = () => {
   useEffect(() => {
     return () => {
       dispatch(clearWeatherDetails());
+      dispatch(clearDetailsCity());
     };
   }, []);
 

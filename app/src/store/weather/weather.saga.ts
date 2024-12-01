@@ -125,6 +125,7 @@ function* fetchWeatherDetailsSaga({
       setWeatherDetails({
         location: weatherDetailsJson.location,
         day: weatherDetailsJson.forecast.forecastday[0],
+        cityWeatherId: payload.cityWeatherId,
       }),
     );
   } catch (error) {
