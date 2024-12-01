@@ -1,5 +1,5 @@
 import {
-  WeatherApiAutoCompleteResponse,
+  WeatherApiSearchResultResponse,
   WeatherApiForecastDayInfo,
   WeatherApiForecastResponse,
   WeatherApiLocationWithTime,
@@ -10,8 +10,8 @@ export type WeatherState = {
   forecastData?: WeatherApiForecastResponse;
   isForecastLoading: boolean;
 
-  autoCompleteData?: WeatherApiAutoCompleteResponse;
-  isAutoCompleteLoading: boolean;
+  citySearchResults?: WeatherApiSearchResultResponse;
+  isCitySearchResultsLoading: boolean;
 
   isWeatherDetailsLoading: boolean;
   weatherDetailsError?: string;

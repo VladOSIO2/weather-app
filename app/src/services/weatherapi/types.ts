@@ -4,9 +4,9 @@ export interface WeatherApiForecastResponse {
   forecast: WeatherApiForecast;
 }
 
-export type WeatherApiAutoCompleteResponse = WeatherApiAutoCompleteItem[];
+export type WeatherApiSearchResultResponse = WeatherApiSearchResultItem[];
 
-export interface WeatherApiAutoCompleteItem {
+export interface WeatherApiSearchResultItem {
   id: number;
   name: string;
   region?: string;

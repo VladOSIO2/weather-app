@@ -9,9 +9,7 @@ const WtLocationName: React.FC<WtLocationNameProps> = ({
   isLoading,
 }) => {
   if (isLoading) {
-    return (
-      <div className="h-9 w-full max-w-md animate-pulse rounded-3xl bg-gray-200" />
-    );
+    return <div className="skeleton h-9 w-full max-w-md rounded-3xl" />;
   }
 
   return (

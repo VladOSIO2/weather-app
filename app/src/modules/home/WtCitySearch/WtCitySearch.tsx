@@ -8,16 +8,28 @@ import {
   fetchForecast,
 } from '@/store/weather/weather.slice';
 import { useDebounce } from '@/hooks/useDebounce/useDebounce';
-import { selectAutoComplete } from '@/store/weather/weather.selectors';
+import {
+  selectSearchResults,
+  selectSearchResultsLoading,
+} from '@/store/weather/weather.selectors';
 import { buildCityNameDetails } from '@/lib/utils/string-utils';
+import { CITY_SEARCH_PLACEHOLDER } from '../home.constants';
+import SpinnerIcon from '@/components/icons/spinner.svg';
 
 const WtCitySearch = () => {
   const dispatch = useAppDispatch();
-  const searchResult = useAppSelector(selectAutoComplete);
+
+  const isSearchResultsLoading = useAppSelector(selectSearchResultsLoading);
+  const searchResult = useAppSelector(selectSearchResults);
 
   const [search, setSearch] = useState('');
+  const [isLoading, setIsLoading] = useState(isSearchResultsLoading);
 
   const debouncedSearch = useDebounce(search, 500);
+
+  useEffect(() => {
+    setIsLoading(isSearchResultsLoading);
+  }, [isSearchResultsLoading]);
 
   useEffect(() => {
     if (debouncedSearch) {
@@ -27,7 +39,9 @@ const WtCitySearch = () => {
 
   const handleInputChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
-      setSearch(e.target.value);
+      const value = e.target.value;
+      setIsLoading(!!value);
+      setSearch(value);
     },
     [],
   );
@@ -40,6 +54,14 @@ const WtCitySearch = () => {
     },
     [dispatch],
   );
+
+  const renderLoadingState = useMemo(() => {
+    return (
+      <div className="absolute left-0 right-0 top-12 flex h-10 items-center rounded-lg border-2 border-gray-300 bg-blue-50 pl-2">
+        <SpinnerIcon className="h-5 w-5 text-blue-950" />
+      </div>
+    );
+  }, []);
 
   const renderSearchResult = useMemo(
     () =>
@@ -65,17 +87,16 @@ const WtCitySearch = () => {
   );
 
   return (
-    <div className="relative max-w-md">
+    <div className="relative w-full max-w-md">
       <input
         value={search}
         onChange={handleInputChange}
-        id="searchInput"
         type="text"
-        placeholder="Address, city or zip code"
+        placeholder={CITY_SEARCH_PLACEHOLDER}
         className="w-full rounded-lg border-2 border-gray-300 p-1 pl-2 text-lg text-blue-950 outline-none duration-200 focus:border-blue-400"
       />
 
-      {renderSearchResult}
+      {isLoading ? renderLoadingState : renderSearchResult}
     </div>
   );
 };

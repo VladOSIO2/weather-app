@@ -1,7 +1,7 @@
 import { createAction, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { WeatherState } from './weather.types';
 import {
-  WeatherApiAutoCompleteResponse,
+  WeatherApiSearchResultResponse,
   WeatherApiForecastDayInfo,
   WeatherApiForecastResponse,
   WeatherApiLocationWithTime,
@@ -10,8 +10,8 @@ import {
 const initialState: WeatherState = {
   isForecastLoading: false,
 
-  autoCompleteData: [],
-  isAutoCompleteLoading: false,
+  citySearchResults: [],
+  isCitySearchResultsLoading: false,
 
   isWeatherDetailsLoading: false,
 };
@@ -38,17 +38,17 @@ export const weatherSlice = createSlice({
 
     setAutoComplete: (
       state,
-      { payload }: PayloadAction<WeatherApiAutoCompleteResponse>,
+      { payload }: PayloadAction<WeatherApiSearchResultResponse>,
     ) => {
-      state.autoCompleteData = payload;
+      state.citySearchResults = payload;
     },
 
     clearAutoComplete: (state) => {
-      state.autoCompleteData = [];
+      state.citySearchResults = [];
     },
 
     setAutoCompleteLoading: (state, { payload }: PayloadAction<boolean>) => {
-      state.isAutoCompleteLoading = payload;
+      state.isCitySearchResultsLoading = payload;
     },
 
     setCityWeatherId: (state, { payload }: PayloadAction<string>) => {

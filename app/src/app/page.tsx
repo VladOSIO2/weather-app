@@ -1,14 +1,5 @@
-import WtHome from '@/modules/home/WtHome/WtHome';
-import { Suspense } from 'react';
+import WtHomeMain from '@/modules/home/WtHomeMain/WtHomeMain';
 
 export default function Home() {
-  return (
-    <div>
-      <main>
-        <Suspense fallback={<div>Loading...</div>}>
-          <WtHome />
-        </Suspense>
-      </main>
-    </div>
-  );
+  return <WtHomeMain />;
 }

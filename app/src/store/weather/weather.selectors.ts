@@ -8,11 +8,11 @@ export const selectCityWeatherId = (state: RootState) =>
 export const selectForecastLoading = (state: RootState) =>
   state.weather.isForecastLoading;
 
-export const selectAutoComplete = (state: RootState) =>
-  state.weather.autoCompleteData;
+export const selectSearchResults = (state: RootState) =>
+  state.weather.citySearchResults;
 
-export const selectAutoCompleteLoading = (state: RootState) =>
-  state.weather.isAutoCompleteLoading;
+export const selectSearchResultsLoading = (state: RootState) =>
+  state.weather.isCitySearchResultsLoading;
 
 export const selectWeatherDetailsDay = (state: RootState) =>
   state.weather.weatherDetailsDay;

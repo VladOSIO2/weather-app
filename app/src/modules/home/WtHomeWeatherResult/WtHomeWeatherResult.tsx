@@ -1,24 +1,27 @@
 'use client';
 
 import React, { useEffect } from 'react';
-import Image from 'next/image';
 import {
-  selectForecastLoading,
   selectForecast,
   selectCityWeatherId,
+  selectForecastLoading,
 } from '@/store/weather/weather.selectors';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   clearForecast,
   setWeatherDetails,
 } from '@/store/weather/weather.slice';
-import WtLinkButton from '@/components/WtLinkButton/WtLinkButton';
 import {
   WeatherApiForecastDayInfo,
   WeatherApiLocationWithTime,
 } from '@/services/weatherapi/types';
 import WtLocationName from '@/components/WtLocationName/WtLocationName';
-import { convertDateStrToLocaleString } from '@/lib/utils/weather-time-utils';
+import {
+  FORECAST_CARDS_TITLE,
+  FORECAST_RESULT_EMPTY_TEXT,
+} from '../home.constants';
+import WtCurrentWeather from '../WtCurrentWeather/WtCurrentWeather';
+import WtForecastCard from '../WtForecastCard/WtForecastCard';
 
 const WtHomeWeatherResult = () => {
   const dispatch = useDispatch();
@@ -42,101 +45,36 @@ const WtHomeWeatherResult = () => {
     );
   };
 
-  //TODO:
   if (!forecastData) {
-    return <div>No data</div>;
+    return (
+      <h1 className="p-4 text-center text-2xl">{FORECAST_RESULT_EMPTY_TEXT}</h1>
+    );
   }
-
-  //TODO:
-  if (isLoading) {
-    return <div>LOADING...</div>;
-  }
-
-  //TODO: not found forecast
 
   const { location, current, forecast } = forecastData;
 
-  //TODO: add current time (UTC, local)
-  const renderCurrent = () => {
-    const { temp_c, temp_f, condition } = current;
+  const renderForecastTitle = isLoading ? (
+    <div className="skeleton my-1 h-6 w-28 rounded-full" />
+  ) : (
+    <h2 className="mt-4 text-2xl font-bold">{FORECAST_CARDS_TITLE}</h2>
+  );
 
-    return (
-      <>
-        <h2 className="mt-4 text-2xl font-bold">Current</h2>
-        <div className="flex flex-row gap-4">
-          <div className="min-h-20 min-w-20">
-            <Image
-              src={`https:${condition.icon}`}
-              alt={condition.text}
-              width={80}
-              height={80}
-            />
-          </div>
-          <div className="mt-1">
-            <p className="text-lg">
-              {temp_c}°C / {temp_f}°F
-            </p>
-            <p className="text-lg">{condition.text}</p>
-          </div>
-        </div>
-      </>
-    );
-  };
-
-  const renderForecast = (
-    <div>
-      <h2 className="mt-4 text-2xl font-bold">Forecast</h2>
-
-      <div className="flex flex-col justify-center gap-4 lg:flex-row">
-        {forecast.forecastday.map((forecastDay) => {
-          const { maxtemp_c, mintemp_c, maxtemp_f, mintemp_f, condition } =
-            forecastDay.day;
-
-          //TODO: WtDetailsCard
-          return (
-            <div
-              key={forecastDay.date}
-              className="flex flex-col rounded-lg border-2 border-blue-300 p-4 lg:max-w-80 lg:flex-1"
-            >
-              <p className="text-lg">
-                {convertDateStrToLocaleString(forecastDay.date)}
-              </p>
-              <div className="flex flex-row gap-4">
-                <div className="min-h-20 min-w-20">
-                  <Image
-                    src={`https:${condition.icon}`}
-                    alt={condition.text}
-                    width={80}
-                    height={80}
-                  />
-                </div>
-                <div className="mt-1">
-                  <p className="text-lg">
-                    <b>min:</b> {mintemp_c}°C / {mintemp_f}°F
-                  </p>
-                  <p className="text-lg">
-                    <b>max:</b> {maxtemp_c}°C / {maxtemp_f}°F
-                  </p>
-                  <p className="text-lg">{condition.text}</p>
-                </div>
-              </div>
-
-              <WtLinkButton
-                href={`/details?id=${cityWeatherId}&date=${forecastDay.date}`}
-                onClick={() => handleDetailsClick(forecastDay)}
-                className="ml-auto mt-2"
-              >
-                Details
-              </WtLinkButton>
-            </div>
-          );
-        })}
-      </div>
+  const renderForecastCards = (
+    <div className="flex flex-col justify-center gap-4 lg:flex-row">
+      {forecast.forecastday.map((forecastDay) => (
+        <WtForecastCard
+          key={forecastDay.date}
+          forecastDay={forecastDay}
+          cityWeatherId={cityWeatherId as string}
+          onDetailsClick={handleDetailsClick}
+          isLoading={isLoading}
+        />
+      ))}
     </div>
   );
 
   return (
-    <div>
+    <div className="mt-4 flex w-full flex-col gap-4">
       <WtLocationName
         name={location.name}
         region={location.region}
@@ -144,8 +82,12 @@ const WtHomeWeatherResult = () => {
         isLoading={isLoading}
       />
 
-      {renderCurrent()}
-      {renderForecast}
+      <WtCurrentWeather current={current} isLoading={isLoading} />
+
+      <div className="flex flex-col gap-2">
+        {renderForecastTitle}
+        {renderForecastCards}
+      </div>
     </div>
   );
 };

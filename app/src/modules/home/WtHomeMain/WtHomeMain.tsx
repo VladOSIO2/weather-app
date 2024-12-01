@@ -1,13 +1,13 @@
 import WtCitySearch from '../WtCitySearch/WtCitySearch';
 import WtHomeWeatherResult from '../WtHomeWeatherResult/WtHomeWeatherResult';
 
-const WtHome = () => {
+const WtHomeMain = () => {
   return (
-    <div className="p-4">
+    <main className="flex flex-col items-center gap-4 p-4">
       <WtCitySearch />
       <WtHomeWeatherResult />
-    </div>
+    </main>
   );
 };
 
-export default WtHome;
+export default WtHomeMain;

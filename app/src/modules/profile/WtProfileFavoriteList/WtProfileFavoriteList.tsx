@@ -26,9 +26,7 @@ const WtProfileFavoriteList = () => {
   }, [userId]);
 
   if (isLoading) {
-    return (
-      <div className="h-6 w-80 max-w-md animate-pulse rounded-3xl bg-gray-200" />
-    );
+    return <div className="skeleton h-6 w-80 max-w-md rounded-3xl" />;
   }
 
   const renderFavoriteCityLink = (city: FavoriteCity) => (
