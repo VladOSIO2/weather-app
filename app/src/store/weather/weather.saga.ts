@@ -5,7 +5,7 @@ import {
   clearWeatherDetailsError,
   fetchAutoComplete,
   fetchForecast,
-  fetchWeatherDetailsIfNeeded,
+  fetchWeatherDetailsLazy,
   setAutoComplete,
   setAutoCompleteLoading,
   setCityWeatherId,
@@ -26,6 +26,7 @@ import {
   WEATHER_DETAILS_ERROR_PARAMS,
 } from './weather.constants';
 import { WeatherApiForecastDayInfo } from '@/services/weatherapi/types';
+import { getCurrentDateIsoStr } from '@/lib/utils/weather-time-utils';
 
 function* fetchForecastSaga({
   payload,
@@ -76,6 +77,8 @@ function* fetchWeatherDetailsSaga({
 }>): SagaIterator<void> {
   yield put(clearWeatherDetailsError());
 
+  const dateString = payload.date ?? getCurrentDateIsoStr();
+
   const storeCityWeatherId = yield select(selectCityWeatherId);
   const storeWeatherDetailsDay: WeatherApiForecastDayInfo | undefined =
     yield select(selectWeatherDetailsDay);
@@ -85,23 +88,22 @@ function* fetchWeatherDetailsSaga({
     Boolean(storeCityWeatherId) &&
     Boolean(storeWeatherDetailsDay) &&
     String(storeCityWeatherId) === payload.cityWeatherId &&
-    storeWeatherDetailsDate === payload.date
+    storeWeatherDetailsDate === dateString
   ) {
     return;
   }
 
-  if (!payload.cityWeatherId || !payload.date) {
+  if (!payload.cityWeatherId) {
     yield put(setWeatherDetailsError(WEATHER_DETAILS_ERROR_PARAMS));
     return;
   }
 
   yield put(setWeatherDetailsLoading(true));
-  yield put(setCityWeatherId(payload.cityWeatherId));
 
   try {
     const weatherDetailsResponse = yield call(
       fetch,
-      `/api/weather/details?q=id:${payload.cityWeatherId}&date=${payload.date}`,
+      `/api/weather/details?q=id:${payload.cityWeatherId}&date=${dateString}`,
     );
     const weatherDetailsJson = yield call([weatherDetailsResponse, 'json']);
 
@@ -136,5 +138,5 @@ function* fetchWeatherDetailsSaga({
 export default function* weatherSaga() {
   yield takeLatest(fetchForecast, fetchForecastSaga);
   yield takeLatest(fetchAutoComplete, fetchAutoCompleteSaga);
-  yield takeLatest(fetchWeatherDetailsIfNeeded, fetchWeatherDetailsSaga);
+  yield takeLatest(fetchWeatherDetailsLazy, fetchWeatherDetailsSaga);
 }

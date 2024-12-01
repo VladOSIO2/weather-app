@@ -46,6 +46,10 @@ export const convertTimeToLocal = (
   return formattedTime;
 };
 
+export const getCurrentDateIsoStr = (): string => {
+  return new Date().toISOString().split('T')[0];
+};
+
 const getTimezoneOffset = (timeZone: string): string => {
   return new Date()
     .toLocaleString('en', { timeZone, timeZoneName: 'longOffset' })

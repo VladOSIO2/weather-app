@@ -41,7 +41,11 @@ const WtDetailsFavoriteButton = () => {
   };
 
   return (
-    <WtButton onClick={handleFavoritesClick} disabled={isLoadingDetailsCity}>
+    <WtButton
+      onClick={handleFavoritesClick}
+      disabled={isLoadingDetailsCity}
+      className="ml-auto w-[14rem]"
+    >
       {detailsCity ? 'Remove from favorites' : 'Add to favorites'}
     </WtButton>
   );

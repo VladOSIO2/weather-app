@@ -76,6 +76,11 @@ export const weatherSlice = createSlice({
       state.weatherDetailsError = undefined;
     },
 
+    clearWeatherDetails: (state) => {
+      state.weatherDetailsDay = undefined;
+      state.weatherDetailsLocation = undefined;
+    },
+
     setWeatherDetailsLoading: (state, { payload }: PayloadAction<boolean>) => {
       state.isWeatherDetailsLoading = payload;
     },
@@ -86,10 +91,10 @@ export const fetchForecast = createAction<string>('weather/fetchForecast');
 export const fetchAutoComplete = createAction<string>(
   'weather/fetchAutoComplete',
 );
-export const fetchWeatherDetailsIfNeeded = createAction<{
+export const fetchWeatherDetailsLazy = createAction<{
   cityWeatherId: string | null;
   date: string | null;
-}>('weather/fetchWeatherDetailsIfNeeded');
+}>('weather/fetchWeatherDetailsLazy');
 
 export const {
   setForecast,
@@ -103,4 +108,5 @@ export const {
   setWeatherDetailsError,
   clearWeatherDetailsError,
   setWeatherDetailsLoading,
+  clearWeatherDetails,
 } = weatherSlice.actions;
