@@ -1,6 +1,7 @@
 'use client';
 
 import WtInfoCard from '@/components/WtInfoCard/WtInfoCard';
+import { buildDetailsUrl } from '@/lib/utils/string-utils';
 import {
   selectFavoriteCities,
   selectIsLoadingFavoriteCities,
@@ -11,6 +12,10 @@ import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { selectUserId } from '@/store/user/user.selectors';
 import Link from 'next/link';
 import { useEffect } from 'react';
+import {
+  PROFILE_FAVORITE_LIST_EMPTY_MESSAGE,
+  PROFILE_FAVORITE_LIST_TITLE,
+} from '../profile.constants';
 
 const WtProfileFavoriteList = () => {
   const dispatch = useAppDispatch();
@@ -35,7 +40,7 @@ const WtProfileFavoriteList = () => {
       className="m-0 p-0 odd:bg-gray-50 even:bg-gray-100"
     >
       <Link
-        href={`/details?id=${city.weatherApiId}`}
+        href={buildDetailsUrl(city.weatherApiId)}
         className="text-md block p-2 duration-200 hover:bg-gray-200"
       >
         {city.cityName}
@@ -45,16 +50,13 @@ const WtProfileFavoriteList = () => {
 
   return (
     <div>
-      <h2 className="text-xl font-semibold">Favorite cities</h2>
+      <h2 className="text-xl font-semibold">{PROFILE_FAVORITE_LIST_TITLE}</h2>
       {favoriteCities && favoriteCities.length > 0 ? (
         <ul className="flex flex-col overflow-hidden rounded-lg border-2 border-blue-300">
           {favoriteCities.map(renderFavoriteCityLink)}
         </ul>
       ) : (
-        <WtInfoCard>
-          You don&apos;t have any favorite cities added yet. Add them on weather
-          details page of the corresponding city!
-        </WtInfoCard>
+        <WtInfoCard>{PROFILE_FAVORITE_LIST_EMPTY_MESSAGE}</WtInfoCard>
       )}
     </div>
   );

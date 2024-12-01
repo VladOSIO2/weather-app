@@ -1,10 +1,10 @@
 import WtProfileFavoriteList from '../WtProfileFavoriteList/WtProfileFavoriteList';
-import WtProfileWelcome from '../WtProfileWelcome/WtProfileWelcome';
+import WtProfileHeader from '../WtProfileHeader/WtProfileHeader';
 
 const WtProfileMain = () => {
   return (
     <main className="flex flex-col gap-4 p-4">
-      <WtProfileWelcome />
+      <WtProfileHeader />
       <WtProfileFavoriteList />
     </main>
   );

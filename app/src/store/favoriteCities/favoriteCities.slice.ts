@@ -37,6 +37,12 @@ export const favoriteCitiesSlice = createSlice({
     setIsValidFavoriteCities: (state, action: PayloadAction<boolean>) => {
       state.isValidFavoriteCities = action.payload;
     },
+
+    clearFavoriteCities: (state) => {
+      state.favoriteCities = undefined;
+      state.isValidFavoriteCities = false;
+      state.isLoadingFavoriteCities = true;
+    },
   },
 });
 
@@ -57,4 +63,5 @@ export const {
   setIsLoadingFavoriteCities,
   setFavoriteCities,
   setIsValidFavoriteCities,
+  clearFavoriteCities,
 } = favoriteCitiesSlice.actions;

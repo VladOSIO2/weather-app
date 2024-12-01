@@ -17,9 +17,16 @@ export const userSlice = createSlice({
     setUserLoading: (state, { payload }: PayloadAction<boolean>) => {
       state.isLoading = payload;
     },
+
+    clearUser: (state) => {
+      state.id = undefined;
+      state.name = undefined;
+      state.isLoading = true;
+    },
   },
 });
 
 export const fetchUser = createAction<void>('user/fetchUser');
+export const logout = createAction<void>('user/logout');
 
-export const { setUser, setUserLoading } = userSlice.actions;
+export const { setUser, setUserLoading, clearUser } = userSlice.actions;

@@ -1,3 +1,4 @@
+import { ACCESS_TOKEN_COOKIE_NAME } from '@/constants/constants';
 import { signJwt } from '@/lib/security/jwt';
 import {
   findUserExists,
@@ -24,7 +25,7 @@ export async function POST(request: NextRequest) {
   const accessToken = signJwt({ sub: user.id });
 
   const cookieStore = await cookies();
-  cookieStore.set('accessToken', accessToken, {
+  cookieStore.set(ACCESS_TOKEN_COOKIE_NAME, accessToken, {
     httpOnly: true,
     secure: true,
     maxAge: Number(process.env.JWT_EXPIRES_IN),

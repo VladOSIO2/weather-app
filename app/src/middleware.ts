@@ -1,7 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { ACCESS_TOKEN_COOKIE_NAME } from './constants/constants';
 
 export const middleware = (req: NextRequest) => {
-  const accessToken = req.cookies.get('accessToken')?.value;
+  const accessToken = req.cookies.get(ACCESS_TOKEN_COOKIE_NAME)?.value;
   const pathname = req.nextUrl.pathname;
 
   if (pathname === '/profile') {

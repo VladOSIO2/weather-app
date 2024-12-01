@@ -1,20 +1,20 @@
 import { call, put, takeLatest } from 'redux-saga/effects';
-import { fetchUser, setUser, setUserLoading } from './user.slice';
+import {
+  clearUser,
+  fetchUser,
+  logout,
+  setUser,
+  setUserLoading,
+} from './user.slice';
 import { SagaIterator } from 'redux-saga';
 import { ErrorHandler } from '@/services/error-handler/error-handler';
+import { clearFavoriteCities } from '../favoriteCities/favoriteCities.slice';
 
 function* fetchUserSaga(): SagaIterator<void> {
   yield put(setUserLoading(true));
 
   try {
-    //TODO: make this everywhere
-    const userResponse = yield call(
-      fetch,
-      new URL(
-        '/api/auth/me',
-        process.env.BASE_URL || process.env.NEXT_PUBLIC_BASE_URL,
-      ),
-    );
+    const userResponse = yield call(fetch, '/api/auth/me');
     const userJson = yield call([userResponse, 'json']);
 
     yield put(setUser(userJson));
@@ -25,6 +25,17 @@ function* fetchUserSaga(): SagaIterator<void> {
   }
 }
 
+function* logoutSaga(): SagaIterator<void> {
+  try {
+    yield call(fetch, '/api/auth/logout', { method: 'POST' });
+    yield put(clearUser());
+    yield put(clearFavoriteCities());
+  } catch (error) {
+    ErrorHandler.handleError(error);
+  }
+}
+
 export function* userSaga() {
   yield takeLatest(fetchUser, fetchUserSaga);
+  yield takeLatest(logout, logoutSaga);
 }

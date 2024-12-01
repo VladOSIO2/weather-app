@@ -2,6 +2,7 @@ import 'server-only';
 import { verifyJwt } from './jwt';
 import { NextRequest, NextResponse } from 'next/server';
 import { CookieJwtPayload } from './jwt';
+import { ACCESS_TOKEN_COOKIE_NAME } from '@/constants/constants';
 
 /**
  * Authenticate the user by verifying the JWT token in the HTTP cookie.
@@ -11,7 +12,7 @@ import { CookieJwtPayload } from './jwt';
 export const authenticateJwtCookie = (
   request: NextRequest,
 ): CookieJwtPayload | NextResponse => {
-  const accessToken = request.cookies.get('accessToken')?.value;
+  const accessToken = request.cookies.get(ACCESS_TOKEN_COOKIE_NAME)?.value;
 
   if (!accessToken) {
     return NextResponse.json({ message: 'Unauthorized' }, { status: 401 });
