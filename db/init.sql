@@ -10,13 +10,6 @@ CREATE TABLE users (
     password_hash VARCHAR(255) NOT NULL
 );
 
-CREATE TABLE search_histories (
-    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-    created_at TIMESTAMP NOT NULL DEFAULT NOW(),
-    search_term VARCHAR(255) NOT NULL,
-    user_id UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE
-);
-
 CREATE TABLE favorite_cities (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
     created_at TIMESTAMP NOT NULL DEFAULT NOW(),
