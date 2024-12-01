@@ -22,6 +22,7 @@ import {
 } from '../home.constants';
 import WtCurrentWeather from '../WtCurrentWeather/WtCurrentWeather';
 import WtForecastCard from '../WtForecastCard/WtForecastCard';
+import { useRouter } from 'next/navigation';
 
 const WtHomeWeatherResult = () => {
   const dispatch = useDispatch();
@@ -29,6 +30,12 @@ const WtHomeWeatherResult = () => {
   const cityWeatherId = useSelector(selectCityWeatherId);
   const forecastData = useSelector(selectForecast);
   const isLoading = useSelector(selectForecastLoading);
+
+  const router = useRouter();
+
+  useEffect(() => {
+    router.refresh();
+  }, []);
 
   useEffect(() => {
     return () => {
