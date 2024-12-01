@@ -12,6 +12,7 @@ export const userSlice = createSlice({
     setUser: (state, { payload }: PayloadAction<UserState>) => {
       state.id = payload.id;
       state.name = payload.name;
+      state.isLoading = false;
     },
 
     setUserLoading: (state, { payload }: PayloadAction<boolean>) => {

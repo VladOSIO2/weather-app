@@ -7,32 +7,49 @@ import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { useAppDispatch } from '@/store/hooks';
 import { setUser } from '@/store/user/user.slice';
+import {
+  AUTH_SIGN_UP_BUTTON_TEXT,
+  AUTH_SIGN_UP_FORM_CONFIRM_PASSWORD_ID,
+  AUTH_SIGN_UP_FORM_CONFIRM_PASSWORD_LABEL,
+  AUTH_SIGN_UP_FORM_EMAIL_ID,
+  AUTH_SIGN_UP_FORM_EMAIL_LABEL,
+  AUTH_SIGN_UP_FORM_PASSWORD_MATCH_ERR_MSG,
+  AUTH_SIGN_UP_FORM_PASSWORD_ID,
+  AUTH_SIGN_UP_FORM_PASSWORD_LABEL,
+  AUTH_SIGN_UP_FORM_TITLE,
+  AUTH_SIGN_UP_FORM_USERNAME_ID,
+  AUTH_SIGN_UP_FORM_USERNAME_LABEL,
+  AUTH_SIGN_UP_FORM_EMAIL_REQ_ERR_MSG,
+  AUTH_SIGN_UP_FORM_PASSWORD_REQ_ERR_MSG,
+  AUTH_SIGN_UP_FORM_USERNAME_REQ_ERR_MSG,
+  AUTH_SIGN_UP_ENDPOINT,
+} from '../auth.constants';
 
 const WtSignUpForm = () => {
   const router = useRouter();
   const [errors, setErrors] = useState<string[] | null>(null);
   const dispatch = useAppDispatch();
 
+  // TODO: Handle request in saga
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData(e.target as HTMLFormElement);
 
-    const email = formData.get('email');
-    const password = formData.get('password');
-    const confirmPassword = formData.get('confirmPassword');
-    const username = formData.get('username');
+    const email = formData.get(AUTH_SIGN_UP_FORM_EMAIL_ID);
+    const password = formData.get(AUTH_SIGN_UP_FORM_PASSWORD_ID);
+    const confirmPassword = formData.get(AUTH_SIGN_UP_FORM_CONFIRM_PASSWORD_ID);
+    const username = formData.get(AUTH_SIGN_UP_FORM_USERNAME_ID);
 
     const errors: string[] = [];
-    if (!username) errors.push('Username is required');
-    if (!email) errors.push('Email is required');
-    if (!password) errors.push('Password is required');
+    if (!username) errors.push(AUTH_SIGN_UP_FORM_USERNAME_REQ_ERR_MSG);
+    if (!email) errors.push(AUTH_SIGN_UP_FORM_EMAIL_REQ_ERR_MSG);
+    if (!password) errors.push(AUTH_SIGN_UP_FORM_PASSWORD_REQ_ERR_MSG);
     if (password !== confirmPassword) {
-      errors.push('Passwords do not match');
+      errors.push(AUTH_SIGN_UP_FORM_PASSWORD_MATCH_ERR_MSG);
     }
 
-    const response = await fetch('/api/auth/sign-up', {
+    const response = await fetch(AUTH_SIGN_UP_ENDPOINT, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ email, password, username }),
     });
 
@@ -66,24 +83,34 @@ const WtSignUpForm = () => {
         onSubmit={handleSubmit}
         className="m-4 mt-16 flex w-full max-w-sm flex-col gap-4 rounded-xl border-2 border-blue-300 px-4 py-4"
       >
-        <h1 className="text-2xl font-bold">Sign up</h1>
-        <WtInput id="email" label="Email" type="email" name="email" />
-        <WtInput id="username" label="Username" type="text" name="username" />
+        <h1 className="text-2xl font-bold">{AUTH_SIGN_UP_FORM_TITLE}</h1>
         <WtInput
-          id="password"
-          label="Password"
-          type="password"
-          name="password"
+          id={AUTH_SIGN_UP_FORM_EMAIL_ID}
+          label={AUTH_SIGN_UP_FORM_EMAIL_LABEL}
+          type="email"
+          name={AUTH_SIGN_UP_FORM_EMAIL_ID}
         />
         <WtInput
-          id="confirmPassword"
-          label="Confirm password"
+          id={AUTH_SIGN_UP_FORM_USERNAME_ID}
+          label={AUTH_SIGN_UP_FORM_USERNAME_LABEL}
+          type="text"
+          name={AUTH_SIGN_UP_FORM_USERNAME_ID}
+        />
+        <WtInput
+          id={AUTH_SIGN_UP_FORM_PASSWORD_ID}
+          label={AUTH_SIGN_UP_FORM_PASSWORD_LABEL}
           type="password"
-          name="confirmPassword"
+          name={AUTH_SIGN_UP_FORM_PASSWORD_ID}
+        />
+        <WtInput
+          id={AUTH_SIGN_UP_FORM_CONFIRM_PASSWORD_ID}
+          label={AUTH_SIGN_UP_FORM_CONFIRM_PASSWORD_LABEL}
+          type="password"
+          name={AUTH_SIGN_UP_FORM_CONFIRM_PASSWORD_ID}
         />
         {renderErrors}
         <WtButton type="submit" className="mt-4">
-          Sign up
+          {AUTH_SIGN_UP_BUTTON_TEXT}
         </WtButton>
         <p className="text-center">
           Already have an account?{' '}

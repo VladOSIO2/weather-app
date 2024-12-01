@@ -7,12 +7,23 @@ import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { useAppDispatch } from '@/store/hooks';
 import { setUser } from '@/store/user/user.slice';
+import {
+  AUTH_SIGN_IN_BUTTON_TEXT,
+  AUTH_SIGN_IN_ENDPOINT,
+  AUTH_SIGN_IN_FORM_EMAIL_ID,
+  AUTH_SIGN_IN_FORM_EMAIL_LABEL,
+  AUTH_SIGN_IN_FORM_PASSWORD_ID,
+  AUTH_SIGN_IN_FORM_PASSWORD_LABEL,
+  AUTH_SIGN_IN_FORM_TITLE,
+  AUTH_SIGN_UP_BUTTON_TEXT,
+} from '../auth.constants';
 
 const WtSignInForm = () => {
   const router = useRouter();
   const [errors, setErrors] = useState<string[] | null>(null);
   const dispatch = useAppDispatch();
 
+  // TODO: Handle request in saga
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData(e.target as HTMLFormElement);
@@ -20,9 +31,8 @@ const WtSignInForm = () => {
     const email = formData.get('email');
     const password = formData.get('password');
 
-    const response = await fetch('/api/auth/sign-in', {
+    const response = await fetch(AUTH_SIGN_IN_ENDPOINT, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ email, password }),
     });
 
@@ -58,22 +68,27 @@ const WtSignInForm = () => {
         onSubmit={handleSubmit}
         className="m-4 mt-16 flex w-full max-w-sm flex-col gap-4 rounded-xl border-2 border-blue-300 px-4 py-4"
       >
-        <h1 className="text-2xl font-bold">Sign in</h1>
-        <WtInput id="email" label="Email" type="email" name="email" />
+        <h1 className="text-2xl font-bold">{AUTH_SIGN_IN_FORM_TITLE}</h1>
         <WtInput
-          id="password"
-          label="Password"
+          id={AUTH_SIGN_IN_FORM_EMAIL_ID}
+          label={AUTH_SIGN_IN_FORM_EMAIL_LABEL}
+          type="email"
+          name={AUTH_SIGN_IN_FORM_EMAIL_ID}
+        />
+        <WtInput
+          id={AUTH_SIGN_IN_FORM_PASSWORD_ID}
+          label={AUTH_SIGN_IN_FORM_PASSWORD_LABEL}
           type="password"
-          name="password"
+          name={AUTH_SIGN_IN_FORM_PASSWORD_ID}
         />
         {renderErrors}
         <WtButton type="submit" className="mt-4">
-          Sign in
+          {AUTH_SIGN_IN_BUTTON_TEXT}
         </WtButton>
         <p className="text-center">
           Don&apos;t have an account?{' '}
           <Link href="/sign-up" className="underline">
-            Sign Up
+            {AUTH_SIGN_UP_BUTTON_TEXT}
           </Link>
         </p>
       </form>
