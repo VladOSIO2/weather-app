@@ -23,3 +23,18 @@ export const authenticateJwtCookie = (
     return NextResponse.json({ message: 'Unauthorized' }, { status: 401 });
   }
 };
+
+export const authenticateJwtCookieAndUserId = (
+  request: NextRequest,
+  userId: string,
+): CookieJwtPayload | NextResponse => {
+  const response = authenticateJwtCookie(request);
+
+  if (response instanceof NextResponse) {
+    return response;
+  }
+
+  return response.sub === userId
+    ? response
+    : NextResponse.json({ message: 'Unauthorized' }, { status: 401 });
+};

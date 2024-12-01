@@ -1,5 +1,6 @@
 import React, { memo } from 'react';
 import { WtLocationNameProps } from './WtLocationName.types';
+import { buildCityNameDetails } from '@/lib/utils/string-utils';
 
 const WtLocationName: React.FC<WtLocationNameProps> = ({
   name,
@@ -16,8 +17,7 @@ const WtLocationName: React.FC<WtLocationNameProps> = ({
   return (
     <p className="text-2xl">
       <span className="text-3xl font-bold">{name}</span>,{' '}
-      {region ? `${region}, ` : ''}
-      {country}
+      {buildCityNameDetails(country, region)}
     </p>
   );
 };

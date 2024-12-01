@@ -5,10 +5,11 @@ import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import {
   clearAutoComplete,
   fetchAutoComplete,
-  setCityWeatherId,
+  fetchForecast,
 } from '@/store/weather/weather.slice';
 import { useDebounce } from '@/hooks/useDebounce/useDebounce';
 import { selectAutoComplete } from '@/store/weather/weather.selectors';
+import { buildCityNameDetails } from '@/lib/utils/string-utils';
 
 const WtCitySearch = () => {
   const dispatch = useAppDispatch();
@@ -33,7 +34,7 @@ const WtCitySearch = () => {
 
   const handleSearchResultClick = useCallback(
     (id: number) => {
-      dispatch(setCityWeatherId(id));
+      dispatch(fetchForecast(id.toString()));
       dispatch(clearAutoComplete());
       setSearch('');
     },
@@ -52,7 +53,8 @@ const WtCitySearch = () => {
                 className="w-full bg-transparent p-2 text-left duration-200 hover:bg-blue-200 active:bg-blue-300"
               >
                 <span className="text-blue-950">
-                  {result.name}, {result.region}, {result.country}
+                  {result.name},{' '}
+                  {buildCityNameDetails(result.country, result.region)}
                 </span>
               </button>
             </li>

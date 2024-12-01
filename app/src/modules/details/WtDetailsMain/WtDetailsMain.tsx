@@ -16,6 +16,7 @@ import { useSearchParams } from 'next/navigation';
 import { useEffect } from 'react';
 import { fetchWeatherDetailsIfNeeded } from '@/store/weather/weather.slice';
 import WtErrorInfo from '@/components/WtErrorInfo/WtErrorInfo';
+import WtDetailsFavoriteButton from '../WtDetailsFavoriteButton/WtDetailsFavoriteButton';
 
 const WtDetailsMain = () => {
   const dispatch = useAppDispatch();
@@ -43,21 +44,33 @@ const WtDetailsMain = () => {
 
   const { day, astro, date } = detailsDay;
 
+  const renderWeatherSuggestion = () => {
+    const suggestion = getWeatherSuggestion(day.avgtemp_c, day.condition.text);
+
+    return (
+      suggestion && (
+        <WtInfoCard>
+          <p className="text-lg">
+            <b>Weather suggestion:</b> {suggestion}
+          </p>
+        </WtInfoCard>
+      )
+    );
+  };
+
   return (
     <main className="flex flex-col gap-4 p-4">
-      <WtLocationName
-        name={detailsLocation.name}
-        region={detailsLocation.region}
-        country={detailsLocation.country}
-        isLoading={isDetailsLoading}
-      />
+      <div className="flex flex-col gap-4 lg:flex-row lg:justify-between">
+        <WtLocationName
+          name={detailsLocation.name}
+          region={detailsLocation.region}
+          country={detailsLocation.country}
+          isLoading={isDetailsLoading}
+        />
+        <WtDetailsFavoriteButton />
+      </div>
 
-      <WtInfoCard>
-        <p className="text-lg">
-          <b>Weather suggestion:</b>{' '}
-          {getWeatherSuggestion(day.avgtemp_c, day.condition.text)}
-        </p>
-      </WtInfoCard>
+      {renderWeatherSuggestion()}
 
       <div className="flex flex-col gap-4 lg:flex-row lg:justify-center">
         <WtDetailsTemperature day={day} date={date} />

@@ -2,8 +2,9 @@ import { NextRequest, NextResponse } from 'next/server';
 
 export const middleware = (req: NextRequest) => {
   const accessToken = req.cookies.get('accessToken')?.value;
+  const pathname = req.nextUrl.pathname;
 
-  if (req.nextUrl.pathname === '/favorites') {
+  if (pathname === '/profile') {
     if (!accessToken) {
       return NextResponse.redirect(new URL('/sign-in', req.url));
     }
@@ -13,5 +14,5 @@ export const middleware = (req: NextRequest) => {
 };
 
 export const config = {
-  matcher: ['/favorites'],
+  matcher: ['/profile'],
 };

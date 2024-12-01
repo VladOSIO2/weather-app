@@ -15,7 +15,7 @@ export const getWeatherSuggestion = (
     suggestions.push('Take an umbrella');
   }
 
-  return suggestions.join('; ') + '.';
+  return suggestions.length > 0 ? suggestions.join('; ') + '.' : '';
 };
 
 export const convertDateStrToLocaleString = (date: string): string => {

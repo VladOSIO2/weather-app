@@ -4,6 +4,7 @@ import { put, takeLatest, call, select } from 'redux-saga/effects';
 import {
   clearWeatherDetailsError,
   fetchAutoComplete,
+  fetchForecast,
   fetchWeatherDetailsIfNeeded,
   setAutoComplete,
   setAutoCompleteLoading,
@@ -26,10 +27,11 @@ import {
 } from './weather.constants';
 import { WeatherApiForecastDayInfo } from '@/services/weatherapi/types';
 
-function* setCityIdSaga({
+function* fetchForecastSaga({
   payload,
 }: PayloadAction<number>): SagaIterator<void> {
   yield put(setForecastLoading(true));
+  yield put(setCityWeatherId(payload));
 
   try {
     const forecastResponse = yield call(
@@ -131,7 +133,7 @@ function* fetchWeatherDetailsSaga({
 }
 
 export default function* weatherSaga() {
-  yield takeLatest(setCityWeatherId, setCityIdSaga);
-  yield takeLatest(fetchAutoComplete, fetchAutoCompleteSaga);
-  yield takeLatest(fetchWeatherDetailsIfNeeded, fetchWeatherDetailsSaga);
+  yield takeLatest(fetchForecast.type, fetchForecastSaga);
+  yield takeLatest(fetchAutoComplete.type, fetchAutoCompleteSaga);
+  yield takeLatest(fetchWeatherDetailsIfNeeded.type, fetchWeatherDetailsSaga);
 }

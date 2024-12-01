@@ -82,6 +82,7 @@ export const weatherSlice = createSlice({
   },
 });
 
+export const fetchForecast = createAction<string>('weather/fetchForecast');
 export const fetchAutoComplete = createAction<string>(
   'weather/fetchAutoComplete',
 );
