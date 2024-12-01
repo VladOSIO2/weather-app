@@ -62,12 +62,10 @@ export const weatherSlice = createSlice({
       }: PayloadAction<{
         day: WeatherApiForecastDayInfo;
         location: WeatherApiLocationWithTime;
-        cityWeatherId: string;
       }>,
     ) => {
       state.weatherDetailsDay = payload.day;
       state.weatherDetailsLocation = payload.location;
-      state.cityWeatherId = payload.cityWeatherId;
     },
 
     setWeatherDetailsError: (state, { payload }: PayloadAction<string>) => {

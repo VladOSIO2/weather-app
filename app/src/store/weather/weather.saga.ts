@@ -125,9 +125,9 @@ function* fetchWeatherDetailsSaga({
       setWeatherDetails({
         location: weatherDetailsJson.location,
         day: weatherDetailsJson.forecast.forecastday[0],
-        cityWeatherId: payload.cityWeatherId,
       }),
     );
+    yield put(setCityWeatherId(payload.cityWeatherId));
   } catch (error) {
     yield put(setWeatherDetailsError(WEATHER_DETAILS_ERROR_FETCH));
     ErrorHandler.handleError(error);
