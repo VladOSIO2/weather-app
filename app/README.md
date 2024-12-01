@@ -1,19 +1,36 @@
 # Weather App
 
-<!-- TODO: frontend description -->
+## Startup
 
-## Store management
+### Local development
 
-This app uses Redux Toolkit (RTK) for store management and redux-saga for orchestrating side effects.
+First, run the development server:
 
-RTK is a powerful library that simplifies the process of managing the store, including reducers, actions, and selectors. It reduces boilerplate code (e.g., comparing to creating multiple context providers for different data parts) and ensures clean state management, making it easier to handle complex state across multiple pages.
+```bash
+npm run dev
+# or
+yarn dev
+# or
+pnpm dev
+# or
+bun dev
+```
 
-Redux-saga is a library that allows handling side effects in a declarative way. It complements RTK by providing a way to manage complex asynchronous operations, such as API calls and user interactions, keeping UI components code clean and maintainable.
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-## Database
 
-The App uses a PostgreSQL database to store the data. Provide the database credentials in the [.env](../app/.env) file as `DATABASE_URL` as a connection URL for either a local or remote database.
+### Production
 
-You will need to run the [init.sql](../db/init.sql) file in the database to create the necessary tables for the app to work.
+First, build the app:
 
-For local development, you can use the [docker-compose file](../db/docker-compose.yml) to start a Docker container with a PostgreSQL database, refer to the [README](../db/README.md) file in the [db](../db) directory for more details.
+```bash
+npm run build
+``` 
+
+Then, start the app:
+
+```bash
+npm run start
+```
+
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
